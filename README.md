@@ -34,6 +34,15 @@
 
 A simple, **ad-free** online text editor for privacy-focused writing. Write with complete privacy, no ads, no tracking.
 
+## 🚀 Live Demo
+
+<a href="https://fazla-cloud.github.io/free-writer/" target="_blank">
+  <img src="https://img.shields.io/badge/Try%20Free%20Writer-Click%20Here-brightgreen?style=for-the-badge" />
+</a>
+</a>
+
+or visit https://fazla-cloud.github.io/free-writer/
+
 ## Features
 
 - 📝 **Full-featured text editor** - Bold, italic, underline, strikethrough, and list formatting
