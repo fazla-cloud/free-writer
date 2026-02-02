@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free Writer - A simple, ad-free online text editor for privacy-focused writing. Write with complete privacy, no ads, no tracking. Perfect for notes, stories, and documents.">
+    <meta name="keywords" content="free text editor, online writer, privacy writing, no ads, free writing tool, document editor">
+    <meta name="author" content="Free Writer">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Free Writer - Ad-Free Online Text Editor">
+    <meta property="og:description" content="Write in complete privacy with Free Writer. No ads, no tracking, completely free. Simple, fast, and secure text editing online.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://freewriter.app">
+    <meta property="og:image" content="free-writer.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Writer - Ad-Free Online Text Editor">
+    <meta name="twitter:description" content="Write in complete privacy with Free Writer. No ads, no tracking.">
+    <meta name="theme-color" content="#deb887">
+    <link rel="canonical" href="https://freewriter.app">
+    <title>Free Writer - Ad-Free Online Text Editor for Privacy Writing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: burlywood;
+            --bg-secondary: white;
+            --bg-tertiary: #fafafa;
+            --bg-toolbar: #f5f5f5;
+            --bg-shortcuts: #f5f5f5;
+            --bg-stats: #f5f5dc;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --text-tertiary: #555;
+            --border-color: #ddd;
+            --button-bg: white;
+            --button-border: #ddd;
+            --button-hover: burlywood;
+            --button-active: #996515;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --transition-duration: 0.3s;
+            --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.dark-theme {
+            --bg-primary: #000000;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #2a2a2a;
+            --bg-toolbar: #2a2a2a;
+            --bg-shortcuts: #2a2a2a;
+            --bg-stats: #2a2a2a;
+            --text-primary: #ffffff;
+            --text-secondary: #e0e0e0;
+            --text-tertiary: #e0e0e0;
+            --border-color: #505050;
+            --button-bg: #2a2a2a;
+            --button-border: #505050;
+            --button-hover: burlywood;
+            --button-active: #d4a574;
+            --shadow-color: rgba(0, 0, 0, 0.8);
+        }
+
+        body.dark-theme .container {
+            border: 1px solid #404040;
+        }
+
+        body.dark-theme .editor-container {
+            border: 2px solid #606060;
+        }
+
+        body.dark-theme .toolbar {
+            border: 1px solid #404040;
+        }
+
+        body.dark-theme .toolbar button {
+            border: 1px solid #606060;
+        }
+
+        body.dark-theme .shortcuts {
+            border: 1px solid #404040;
+        }
+
+        body.dark-theme .stats {
+            border: 1px solid #404040;
+        }
+
+        body.dark-theme .theme-toggle {
+            border: 1px solid #606060;
+        }
+
+        body.dark-theme .reveal-toggle {
+            border: 1px solid rgba(222, 184, 135, 0.3);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: background var(--transition-duration) var(--transition-timing);
+        }
+
+        .container {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            box-shadow: 0 20px 60px var(--shadow-color);
+            width: 100%;
+            max-width: 800px;
+            padding: 30px;
+            transition: background var(--transition-duration) var(--transition-timing),
+                        box-shadow var(--transition-duration) var(--transition-timing),
+                        transform var(--transition-duration) var(--transition-timing);
+            animation: slideUp 0.6s var(--transition-timing);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: color var(--transition-duration) var(--transition-timing);
+            animation: fadeInDown 0.6s var(--transition-timing) 0.1s both;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            animation: spin 0.8s var(--transition-timing) 0.3s both;
+        }
+
+        @keyframes spin {
+            from {
+                opacity: 0;
+                transform: rotate(-180deg) scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: rotate(0) scale(1);
+            }
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-size: 14px;
+            transition: color var(--transition-duration) var(--transition-timing);
+            animation: fadeIn 0.6s var(--transition-timing) 0.2s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: var(--bg-toolbar);
+            border-radius: 8px;
+            flex-wrap: wrap;
+            transition: background var(--transition-duration) var(--transition-timing);
+            animation: fadeIn 0.6s var(--transition-timing) 0.3s both;
+        }
+
+        .toolbar button {
+            padding: 8px 12px;
+            border: 1px solid var(--button-border);
+            background: var(--button-bg);
+            color: var(--text-primary);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all var(--transition-duration) var(--transition-timing);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toolbar button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(139, 90, 43, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .toolbar button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .toolbar button:hover {
+            background: var(--button-hover);
+            color: white;
+            border-color: var(--button-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(222, 184, 135, 0.3);
+        }
+
+        .toolbar button.active {
+            background: var(--button-active);
+            color: white;
+            border-color: var(--button-active);
+            box-shadow: 0 2px 8px rgba(139, 90, 43, 0.4);
+        }
+
+        .editor-container {
+            position: relative;
+            min-height: 400px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            background: var(--bg-tertiary);
+            transition: background var(--transition-duration) var(--transition-timing),
+                        border-color var(--transition-duration) var(--transition-timing),
+                        box-shadow var(--transition-duration) var(--transition-timing);
+            animation: fadeIn 0.6s var(--transition-timing) 0.4s both;
+        }
+
+        .editor-container:focus-within {
+            border-color: var(--button-hover);
+            box-shadow: 0 0 0 3px rgba(222, 184, 135, 0.1);
+        }
+
+        #editor {
+            width: 100%;
+            min-height: 400px;
+            font-size: 16px;
+            line-height: 1.8;
+            outline: none;
+            color: var(--text-primary);
+            text-shadow: none;
+            caret-color: burlywood;
+            transition: color var(--transition-duration) var(--transition-timing);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        #editor ol,
+        #editor ul {
+            margin-left: 20px;
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+
+        #editor li {
+            margin-bottom: 6px;
+        }
+
+        #editor.hidden {
+            color: transparent;
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+            transition: text-shadow var(--transition-duration) var(--transition-timing);
+        }
+
+        body.dark-theme #editor.hidden {
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+        }
+
+        #editor::selection {
+            background: rgba(139, 90, 43, 0.5);
+            text-shadow: none;
+            color: white;
+        }
+
+        .reveal-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 8px 16px;
+            background: var(--button-hover);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all var(--transition-duration) var(--transition-timing);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .reveal-toggle:hover {
+            background: var(--button-active);
+            transform: scale(1.05);
+        }
+
+        .reveal-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .shortcuts {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--bg-shortcuts);
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            transition: background var(--transition-duration) var(--transition-timing),
+                        color var(--transition-duration) var(--transition-timing);
+            animation: fadeIn 0.6s var(--transition-timing) 0.5s both;
+        }
+
+        .shortcuts h3 {
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: color var(--transition-duration) var(--transition-timing);
+        }
+
+        .shortcuts ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 8px;
+        }
+
+        .shortcuts li {
+            padding: 5px 0;
+            transition: transform 0.2s var(--transition-timing);
+        }
+
+        .shortcuts li:hover {
+            transform: translateX(4px);
+        }
+
+        .shortcut-key {
+            background: var(--button-hover);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 11px;
+            transition: all 0.2s var(--transition-timing);
+            display: inline-block;
+        }
+
+        .shortcuts li:hover .shortcut-key {
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px rgba(222, 184, 135, 0.3);
+        }
+
+        .stats {
+            margin-top: 15px;
+            padding: 10px;
+            background: var(--bg-stats);
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--text-tertiary);
+            transition: background var(--transition-duration) var(--transition-timing),
+                        color var(--transition-duration) var(--transition-timing);
+            animation: fadeIn 0.6s var(--transition-timing) 0.4s both;
+        }
+
+        .stats span {
+            transition: transform 0.3s var(--transition-timing);
+        }
+
+        .stats span:hover {
+            transform: scale(1.05);
+            display: inline-block;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 16px;
+            background: var(--button-hover);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all var(--transition-duration) var(--transition-timing);
+            box-shadow: 0 4px 12px var(--shadow-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .theme-toggle:hover {
+            background: var(--button-active);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px var(--shadow-color);
+        }
+
+        .theme-toggle:active {
+            transform: translateY(0);
+        }
+
+        #themeIcon {
+            transition: transform 0.4s var(--transition-timing);
+        }
+
+        .theme-toggle:hover #themeIcon {
+            transform: rotate(20deg) scale(1.1);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .logo {
+                width: 40px;
+                height: 40px;
+            }
+
+            .toolbar {
+                gap: 8px;
+            }
+
+            .toolbar button {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+
+            .editor-container {
+                min-height: 300px;
+                padding: 15px;
+            }
+
+            #editor {
+                min-height: 300px;
+            }
+
+            .shortcuts ul {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Free Writer",
+        "description": "A free, ad-free online text editor for privacy-focused writing",
+        "url": "https://freewriter.app",
+        "applicationCategory": "Productivity",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5",
+            "ratingCount": "100"
+        },
+        "author": {
+            "@type": "Organization",
+            "name": "Free Writer"
+        },
+        "isAccessibleForFree": true,
+        "softwareRequirements": "Web browser",
+        "image": "https://i.ibb.co.com/Ngc2RB3h/Secret-Writer.png",
+        "potentialAction": {
+            "@type": "UseAction",
+            "target": "https://freewriter.app"
+        }
+    }
+    </script>
+
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode" aria-label="Toggle Dark/Light Mode">
+        <i class="fas fa-moon" id="themeIcon"></i>
+        <span id="themeText">Dark</span>
+    </button>
+    
+    <main class="container">
+        <h1>
+            <img src="https://i.ibb.co.com/Ngc2RB3h/Secret-Writer.png" alt="Free Writer Logo" class="logo">
+            Free Writer
+        </h1>
+        <p class="subtitle">Write in complete privacy - completely free, no ads, no tracking</p>
+        
+        <div class="toolbar" role="toolbar" aria-label="Text formatting options">
+            <button onclick="formatText('bold')" title="Ctrl+B" aria-label="Bold"><strong>B</strong> Bold</button>
+            <button onclick="formatText('italic')" title="Ctrl+I" aria-label="Italic"><em>I</em> Italic</button>
+            <button onclick="formatText('underline')" title="Ctrl+U" aria-label="Underline"><u>U</u> Underline</button>
+            <button onclick="formatText('strikeThrough')" title="Ctrl+Shift+X" aria-label="Strikethrough"><s>S</s> Strike</button>
+            <button onclick="formatText('insertOrderedList')" title="Ctrl+Shift+7" aria-label="Ordered List">1. List</button>
+            <button onclick="formatText('insertUnorderedList')" title="Ctrl+Shift+8" aria-label="Unordered List">• List</button>
+            <button onclick="clearFormatting()" title="Ctrl+\\" aria-label="Clear Formatting">Clear Format</button>
+        </div>
+
+        <div class="editor-container">
+            <button class="reveal-toggle" onclick="toggleReveal()" title="Ctrl+H" aria-label="Toggle Reveal/Hide Text"><i class="fas fa-eye-slash"></i> Hide</button>
+            <div id="editor" contenteditable="true" spellcheck="true" role="textbox" aria-label="Text editor" aria-multiline="true"></div>
+        </div>
+
+        <div class="stats">
+            <span id="charCount">0 characters</span> | <span id="wordCount">0 words</span>
+        </div>
+
+        <section class="shortcuts" aria-label="Keyboard shortcuts">
+            <h3><i class="fas fa-keyboard"></i> Keyboard Shortcuts</h3>
+            <ul>
+                <li><span class="shortcut-key">Ctrl+B</span> Bold</li>
+                <li><span class="shortcut-key">Ctrl+I</span> Italic</li>
+                <li><span class="shortcut-key">Ctrl+U</span> Underline</li>
+                <li><span class="shortcut-key">Ctrl+Shift+X</span> Strikethrough</li>
+                <li><span class="shortcut-key">Ctrl+Shift+7</span> Numbered List</li>
+                <li><span class="shortcut-key">Ctrl+Shift+8</span> Bullet List</li>
+                <li><span class="shortcut-key">Ctrl+\</span> Clear Formatting</li>
+                <li><span class="shortcut-key">Ctrl+H</span> Toggle Reveal/Hide</li>
+                <li><span class="shortcut-key">Ctrl+A</span> Select All</li>
+            </ul>
+        </section>
+    </main>
+
+    <script>
+        const editor = document.getElementById('editor');
+        let isRevealed = true;
+
+        // Theme toggle function with smooth transition
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            const themeIcon = document.getElementById('themeIcon');
+            const themeText = document.getElementById('themeText');
+            
+            if (isDark) {
+                themeIcon.className = 'fas fa-sun';
+                themeText.textContent = 'Light';
+            } else {
+                themeIcon.className = 'fas fa-moon';
+                themeText.textContent = 'Dark';
+            }
+            
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        // Load saved theme preference
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                document.getElementById('themeIcon').className = 'fas fa-sun';
+                document.getElementById('themeText').textContent = 'Light';
+            }
+        });
+
+        // Auto-focus editor when user starts typing anywhere
+        document.addEventListener('keydown', function(e) {
+            if (document.activeElement === editor) return;
+            if (e.ctrlKey || e.altKey || e.metaKey) return;
+            if (e.key.length > 1 && !['Enter', 'Space', 'Backspace', 'Delete', 'Tab'].includes(e.key)) return;
+            
+            editor.focus();
+        });
+
+        // Format text command
+        function formatText(command) {
+            document.execCommand(command, false, null);
+            editor.focus();
+            updateButtonStates();
+        }
+
+        // Clear all formatting
+        function clearFormatting() {
+            document.execCommand('removeFormat', false, null);
+            editor.focus();
+            updateButtonStates();
+        }
+
+        // Update button active states based on current selection
+        function updateButtonStates() {
+            const buttons = {
+                'bold': document.querySelector('[onclick*="bold"]'),
+                'italic': document.querySelector('[onclick*="italic"]'),
+                'underline': document.querySelector('[onclick*="underline"]'),
+                'strikeThrough': document.querySelector('[onclick*="strikeThrough"]'),
+                'insertOrderedList': document.querySelector('[onclick*="insertOrderedList"]'),
+                'insertUnorderedList': document.querySelector('[onclick*="insertUnorderedList"]')
+            };
+
+            Object.keys(buttons).forEach(command => {
+                if (buttons[command]) {
+                    if (document.queryCommandState(command)) {
+                        buttons[command].classList.add('active');
+                    } else {
+                        buttons[command].classList.remove('active');
+                    }
+                }
+            });
+        }
+
+        // Toggle reveal/hide text
+        function toggleReveal() {
+            isRevealed = !isRevealed;
+            editor.classList.toggle('hidden', !isRevealed);
+            document.querySelector('.reveal-toggle').innerHTML = isRevealed ? '<i class="fas fa-eye-slash"></i> Hide' : '<i class="fas fa-eye"></i> Reveal';
+        }
+
+        // Keyboard shortcuts
+        editor.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                document.execCommand('insertHTML', false, '&nbsp;&nbsp;&nbsp;&nbsp;');
+            }
+            else if (e.ctrlKey && e.key === 'b') {
+                e.preventDefault();
+                formatText('bold');
+            }
+            else if (e.ctrlKey && e.key === 'i') {
+                e.preventDefault();
+                formatText('italic');
+            }
+            else if (e.ctrlKey && e.key === 'u') {
+                e.preventDefault();
+                formatText('underline');
+            }
+            else if (e.ctrlKey && e.key === 'h') {
+                e.preventDefault();
+                toggleReveal();
+            }
+            else if (e.ctrlKey && e.shiftKey && e.key === 'X') {
+                e.preventDefault();
+                formatText('strikeThrough');
+            }
+            else if (e.ctrlKey && e.shiftKey && e.key === '&') {
+                e.preventDefault();
+                formatText('insertOrderedList');
+            }
+            else if (e.ctrlKey && e.shiftKey && e.key === '*') {
+                e.preventDefault();
+                formatText('insertUnorderedList');
+            }
+            else if (e.ctrlKey && e.key === '\\') {
+                e.preventDefault();
+                clearFormatting();
+            }
+        });
+
+        // Update button states when selection changes
+        editor.addEventListener('mouseup', updateButtonStates);
+        editor.addEventListener('keyup', updateButtonStates);
+        editor.addEventListener('focus', updateButtonStates);
+        document.addEventListener('selectionchange', function() {
+            if (document.activeElement === editor) {
+                updateButtonStates();
+            }
+        });
+
+        // Update character and word count
+        function updateStats() {
+            const text = editor.innerText || '';
+            const charCount = text.length;
+            const wordCount = text.trim().split(/\s+/).filter(word => word.length > 0).length;
+            
+            document.getElementById('charCount').textContent = `${charCount} characters`;
+            document.getElementById('wordCount').textContent = `${wordCount} words`;
+        }
+
+        // Update stats on input
+        editor.addEventListener('input', updateStats);
+
+        // Initial focus
+        editor.focus();
+    </script>
+</body>
+</html>
