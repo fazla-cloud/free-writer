@@ -1,3 +1,35 @@
+---
+
+## 👤 Portfolio (Author)
+
+<div align="left">
+
+<img src="assets/images/fazla.png" alt="Author" width="140" />
+
+</div>
+
+| **Field** | **Details** |
+|-----------|-------------|
+| **Name** | *Fazla Rabbi* |
+| **Role** | Software Developer |
+| **Portfolio / Website** | [https://fazla.pro](https://fazla.pro) |
+| **Contact** | [frchowdhury480@gmail.com](mailto:frchowdhury480@gmail.com) |
+
+<div align="left">
+
+<!-- 🌐 Socials -->
+<b>Socials:</b><br>
+
+<a href="https://fazla.pro" title="Website"><img src="https://cdn.simpleicons.org/googlechrome/FFFFFF" height="20" alt="Website" /></a>&nbsp;&nbsp;
+<a href="https://github.com/fazla-cloud" title="GitHub"><img src="https://cdn.simpleicons.org/github/FFFFFF" height="20" alt="GitHub" /></a>&nbsp;&nbsp;
+<a href="https://www.linkedin.com/in/fazla1/" title="LinkedIn"><img src="https://cdn.simpleicons.org/logmein/FFFFFF" height="20" alt="LinkedIn" /></a>&nbsp;&nbsp;
+<a href="https://www.facebook.com/InnocentP480" title="Facebook"><img src="https://cdn.simpleicons.org/facebook/FFFFFF" height="20" alt="Facebook" /></a>&nbsp;&nbsp;
+<a href="https://x.com/fazla_fr" title="X (Twitter)"><img src="https://cdn.simpleicons.org/x/FFFFFF" height="18" alt="X" /></a>&nbsp;&nbsp;
+
+</div>
+
+---
+
 # Free Writer
 
 A simple, **ad-free** online text editor for privacy-focused writing. Write with complete privacy, no ads, no tracking.
@@ -43,6 +75,15 @@ Your data stays on your device. Free Writer:
 ## License
 
 Free to use and modify for personal and commercial purposes.
+
+---
+
+### Key Skills in This Project
+
+- **Frontend**: `HTML5`, `CSS3`, `JavaScript (Vanilla)`
+- **UI/UX**: Responsive design, Dark/Light theme implementation, Smooth animations
+- **Features**: Text formatting, Hidden text mode, Real-time statistics, Keyboard shortcuts
+- **SEO**: Meta tags, Open Graph, JSON-LD structured data, Accessibility (ARIA labels)
 
 ---
 
